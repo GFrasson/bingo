@@ -6,6 +6,7 @@ import { Board } from "./Board"
 import { AdminControls } from "./AdminControls"
 import { declareBingo, drawWord, endGame, markBoard, startGame } from "@/app/actions"
 import { Button } from "@/components/ui/button"
+import confetti from "canvas-confetti"
 
 interface Winner {
   id: string
@@ -75,6 +76,11 @@ export function GameClient({
 
   const handleDeclareBingo = async () => {
     if (!playerId) return
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    })
     await declareBingo(playerId, roomId)
   }
 
