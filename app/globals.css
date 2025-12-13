@@ -53,37 +53,34 @@
   --radius: 1rem;
   /* Softer, rounder corners */
 
-  /* Light Cream Background */
-  --background: oklch(0.98 0.01 90);
-  /* Rose Gold / Brown Text */
-  --foreground: oklch(0.35 0.04 25);
+  /* Light Cream Background (#FDF6F0) - Converted to OKLCH approximately */
+  --background: oklch(0.97 0.02 85);
+  /* Dark Grey/Brown Text (#4A4A4A) */
+  --foreground: oklch(0.4 0.02 20);
 
-  /* White Cards with slight warmth */
+  /* Card Background (White) */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.35 0.04 25);
+  --card-foreground: oklch(0.4 0.02 20);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.35 0.04 25);
+  --popover-foreground: oklch(0.4 0.02 20);
 
-  /* Rose Gold Primary */
-  --primary: oklch(0.65 0.15 20);
+  /* Saddle Brown Title (#8B4513) approx */
+  --primary: oklch(0.45 0.15 45);
   --primary-foreground: oklch(0.98 0.01 90);
 
-  /* Soft Pink Secondary */
-  --secondary: oklch(0.92 0.03 15);
+  /* Pale Red/Pink Border (#F4CCCC) approx */
+  --secondary: oklch(0.88 0.08 20);
   --secondary-foreground: oklch(0.4 0.05 20);
 
-  /* Sage Green Muted */
   --muted: oklch(0.94 0.03 130);
   --muted-foreground: oklch(0.55 0.05 130);
 
-  /* Gold Accent */
   --accent: oklch(0.95 0.03 85);
   --accent-foreground: oklch(0.4 0.05 20);
 
   --destructive: oklch(0.6 0.15 25);
 
-  /* Champagne Border */
   --border: oklch(0.88 0.04 85);
   --input: oklch(0.90 0.02 85);
   --ring: oklch(0.75 0.1 25);

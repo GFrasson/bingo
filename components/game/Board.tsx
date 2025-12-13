@@ -58,27 +58,40 @@ export function Board({ items, onMark, disabled, onBingo }: BoardProps) {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-1 sm:gap-3 max-w-xl mx-auto aspect-square p-2 sm:p-6 bg-white shadow-2xl rounded-xl border-4 border-double border-primary/30 relative overflow-hidden">
-      {/* Decorative corner */}
-      <div className="absolute top-0 left-0 w-16 h-16 bg-secondary/20 -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-16 h-16 bg-primary/20 translate-x-1/2 translate-y-1/2 rounded-full blur-xl pointer-events-none" />
+    <div className="relative flex flex-col items-center justify-center max-w-xl mx-auto aspect-[3/4] p-2 sm:p-8 shadow-2xl rounded-xl overflow-hidden bg-background">
+      {/* Full Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/board_background_full_2.png"
+          alt=""
+          className="w-full h-full object-fill opacity-90"
+        />
+      </div>
 
-      {localItems.sort((a, b) => a.position - b.position).map((item) => (
-        <button
-          key={item.id}
-          onClick={() => handleClick(item)}
-          disabled={disabled || item.marked}
-          className={cn(
-            "relative flex items-center justify-center p-0.5 sm:p-1 text-[9px] sm:text-xs md:text-sm font-bold border-2 rounded-lg transition-all duration-300 break-words leading-none text-center select-none shadow-sm aspect-square overflow-hidden",
-            item.marked
-              ? "bg-primary text-primary-foreground border-primary scale-95 shadow-inner"
-              : "bg-white text-rose-900 border-rose-100 hover:border-primary/50 hover:bg-rose-50 hover:scale-105 active:scale-95",
-            disabled && !item.marked && "opacity-50 cursor-not-allowed bg-slate-50"
-          )}
-        >
-          <span className="z-10">{item.word}</span>
-        </button>
-      ))}
+      {/* Title */}
+      <h1 className="text-4xl sm:text-6xl md:text-7xl font-display text-primary z-10 mt-8 sm:mt-16 mb-2 sm:mb-4 drop-shadow-sm rotate-[-2deg]">
+        Bingo
+      </h1>
+
+      {/* Grid */}
+      <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full z-10 px-3 sm:px-12 mb-8 sm:mb-20 flex-1 content-center">
+        {localItems.sort((a, b) => a.position - b.position).map((item) => (
+          <button
+            key={item.id}
+            onClick={() => handleClick(item)}
+            disabled={disabled || item.marked}
+            className={cn(
+              "relative flex items-center justify-center aspect-square p-1 text-[9px] sm:text-xs md:text-sm font-bold border-2 rounded-xl transition-all duration-300 break-words leading-tight text-center select-none shadow-sm mix-blend-multiply",
+              item.marked
+                ? "bg-secondary text-secondary-foreground border-secondary-foreground/20 scale-95 shadow-inner"
+                : "bg-white text-foreground border-secondary hover:border-primary/50 hover:bg-white hover:scale-105 hover:shadow-md active:scale-95",
+              disabled && !item.marked && "opacity-50 cursor-not-allowed bg-slate-50"
+            )}
+          >
+            <span className="z-10 line-clamp-3">{item.word}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
