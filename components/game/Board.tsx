@@ -58,23 +58,33 @@ export function Board({ items, onMark, disabled, onBingo }: BoardProps) {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-2 max-w-md mx-auto aspect-square p-4 bg-white shadow-lg rounded-xl">
+    <div className="grid grid-cols-5 gap-3 max-w-md mx-auto aspect-square p-6 bg-white shadow-2xl rounded-xl border-4 border-double border-primary/30 relative overflow-hidden">
+      {/* Decorative corner */}
+      <div className="absolute top-0 left-0 w-16 h-16 bg-secondary/20 -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-16 h-16 bg-primary/20 translate-x-1/2 translate-y-1/2 rounded-full blur-xl pointer-events-none" />
+
       {localItems.sort((a, b) => a.position - b.position).map((item) => (
         <button
           key={item.id}
           onClick={() => handleClick(item)}
           disabled={disabled || item.marked}
           className={cn(
-            "flex items-center justify-center p-1 text-xs sm:text-sm font-bold border rounded-md transition-all shadow-sm break-words leading-tight text-center select-none",
+            "relative flex items-center justify-center p-1 text-xs sm:text-sm font-bold border-2 rounded-lg transition-all duration-300 break-words leading-tight text-center select-none shadow-sm aspect-square",
             item.marked
-              ? "bg-rose-500 text-white border-rose-600 scale-95 opacity-90"
-              : "bg-rose-50 text-rose-900 border-rose-200 hover:bg-rose-100 hover:scale-105 active:scale-95",
-            disabled && "opacity-50 cursor-not-allowed"
+              ? "bg-primary text-primary-foreground border-primary scale-95 shadow-inner"
+              : "bg-white text-rose-900 border-rose-100 hover:border-primary/50 hover:bg-rose-50 hover:scale-105 active:scale-95",
+            disabled && !item.marked && "opacity-50 cursor-not-allowed bg-slate-50"
           )}
         >
-          {item.word}
+          {item.marked && (
+            <span className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+              ♥
+            </span>
+          )}
+          <span className="z-10">{item.word}</span>
         </button>
       ))}
     </div>
   )
 }
+

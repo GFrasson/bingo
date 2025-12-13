@@ -5,6 +5,9 @@ import { useRealtime } from "@/lib/realtime/client"
 import { Board } from "./Board"
 import { declareBingo, markBoard } from "@/app/actions"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Trophy, Dices, Gift, RefreshCw } from "lucide-react"
 import confetti from "canvas-confetti"
 
 interface Winner {
@@ -66,9 +69,10 @@ export function PlayerGame({
   const handleDeclareBingo = async () => {
     if (!playerId) return
     confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ['#FFC0CB', '#FFD700', '#FFFFFF', '#E6E6FA'] // Pink, Gold, White, Lavender
     })
     await declareBingo(playerId, roomId)
   }
@@ -76,28 +80,43 @@ export function PlayerGame({
   const isPlayerWinner = playerId && winners.some(w => w.id === playerId)
 
   return (
-    <div className="w-full flex flex-col items-center gap-8">
+    <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
+
+      {/* Header / Title */}
+      <h1 className="text-5xl md:text-6xl text-primary font-display drop-shadow-sm mb-4">
+        Bingo Chá de Panela
+      </h1>
+
       {/* Game Over Banner */}
       {gameStatus === 'ENDED' && (
-        <div className="w-full bg-slate-800 text-white p-6 text-center text-3xl font-bold animate-in slide-in-from-top">
+        <div className="w-full max-w-4xl bg-primary text-primary-foreground p-4 text-center text-2xl font-bold rounded-xl shadow-lg animate-in slide-in-from-top">
           JOGO ENCERRADO
         </div>
       )}
 
       {/* Winners List - Always visible if there are winners */}
       {winners.length > 0 && (
-        <div className="w-full max-w-4xl bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 shadow-sm">
-          <h3 className="text-2xl font-bold text-yellow-800 mb-4 flex items-center gap-2">
-            🏆 Vencedores do Bingo ({winners.length})
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {winners.map(w => (
-              <span key={w.id} className="bg-yellow-100 text-yellow-900 border border-yellow-300 px-4 py-2 rounded-full font-bold shadow-sm animate-in zoom-in">
-                {w.name}
-              </span>
-            ))}
-          </div>
-        </div>
+        <Card className="w-full max-w-4xl border-2 border-accent bg-background/80 backdrop-blur-sm shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-display text-primary flex items-center justify-center gap-3">
+              <Trophy className="h-6 w-6 text-yellow-500" />
+              Vencedoras
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap justify-center gap-2">
+              {winners.map(w => (
+                <Badge
+                  key={w.id}
+                  variant="secondary"
+                  className="px-4 py-1 text-base rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
+                >
+                  {w.name}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Player Bingo Button */}
@@ -107,49 +126,67 @@ export function PlayerGame({
             onClick={handleDeclareBingo}
             disabled={!canBingo}
             className={canBingo
-              ? "bg-green-600 hover:bg-green-700 text-white text-4xl py-12 px-16 rounded-full shadow-2xl animate-bounce"
+              ? "bg-green-500 hover:bg-green-600 text-white text-3xl font-display py-8 px-12 h-auto rounded-full shadow-[0_0_50px_rgba(34,197,94,0.5)] animate-bounce hover:scale-110 transition-all border-4 border-white ring-4 ring-green-300"
               : "hidden"
             }
           >
-            BINGO!
+            🎉 BINGO! 🎉
           </Button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4 pb-24">
         {/* Left: Last Draw */}
-        <div className="bg-white rounded-lg shadow-md p-6 min-h-[300px] flex flex-col items-center justify-center border-t-4 border-rose-500">
-          <h2 className="text-xl font-medium text-gray-500 mb-4 uppercase tracking-widest">Última Pedra</h2>
-          <div className="text-5xl md:text-6xl font-black text-rose-600 text-center">
-            {lastDraw || "---"}
-          </div>
-        </div>
+        <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group h-fit">
+          <CardHeader className="bg-secondary/30 pb-4">
+            <CardTitle className="text-xl text-center font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
+              <Dices className="w-5 h-5" /> Última Pedra
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center min-h-[150px] p-6 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-full scale-0 group-hover:scale-150 transition-transform duration-700" />
+            <div className="text-4xl md:text-5xl font-black text-primary text-center break-words z-10 animate-in zoom-in spin-in-3 duration-300">
+              {lastDraw || "---"}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Center: Game Area */}
-        <div className="bg-white rounded-lg shadow-md p-6 md:col-span-2 min-h-[500px] flex flex-col items-center justify-center border-t-4 border-rose-500">
-          <div className="w-full flex flex-col items-center">
-            <h2 className="text-2xl font-bold mb-8 text-rose-900">Sua Cartela</h2>
+        <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
+          <CardHeader className="bg-secondary/30 pb-4">
+            <CardTitle className="text-2xl text-center font-bold text-primary flex items-center justify-center gap-2">
+              <Gift className="w-6 h-6" /> Sua Cartela
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center justify-center p-6 sm:p-8">
             {initialBoard && initialBoard.length > 0 ? (
-              <div className="relative">
+              <div className="relative w-full max-w-sm">
                 <Board
                   items={initialBoard}
                   onMark={handleMark}
                   onBingo={() => setCanBingo(true)}
                   disabled={gameStatus === 'ENDED' || !!isPlayerWinner}
                 />
-                {/* Overlay for ended game */}
-                {gameStatus === 'ENDED' && (
-                  <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10 backdrop-blur-sm rounded-xl">
-                    <span className="bg-slate-800 text-white px-4 py-2 rounded-full font-bold">Jogo Finalizado</span>
+
+                {/* Overlay for ended game or winner */}
+                {(gameStatus === 'ENDED' || !!isPlayerWinner) && (
+                  <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-20 backdrop-blur-sm rounded-xl animate-in fade-in">
+                    <span className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl shadow-xl">
+                      {!!isPlayerWinner ? "Você ganhou! 🥳" : "Jogo Finalizado"}
+                    </span>
                   </div>
                 )}
               </div>
             ) : (
-              <p>Carregando cartela...</p>
+              <div className="flex flex-col items-center justify-center p-12 text-muted-foreground">
+                <RefreshCw className="w-8 h-8 animate-spin mb-4" />
+                <p>Carregando cartela...</p>
+              </div>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
 }
+
