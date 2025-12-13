@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Dancing_Script, Lato } from "next/font/google";
 import "./globals.css";
-import { Background } from "@/components/ui/Background";
 
 const dancingScript = Dancing_Script({
   variable: "--font-dancing",
@@ -29,9 +28,9 @@ export default function RootLayout({
       <body
         className={`${dancingScript.variable} ${lato.variable} font-sans antialiased text-foreground bg-background`}
       >
-        <Background />
         {children}
       </body>
+
 
     </html>
   );
