@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  status    String   @default("WAITING") // WAITING, PLAYING, ENDED
+  theme     String   @default("cha_de_panela")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  players   Player[]
+  draws     Draw[]
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  name      String
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  isBingo   Boolean  @default(false)
+  board     BoardItem[]
+  
+  createdAt DateTime @default(now())
+}
+
+model BoardItem {
+  id        String   @id @default(cuid())
+  playerId  String
+  player    Player   @relation(fields: [playerId], references: [id])
+  word      String
+  position  Int      // 0-24
+  marked    Boolean  @default(false)
+
+  @@index([playerId])
+}
+
+model Draw {
+  id        String   @id @default(cuid())
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  word      String
+  timestamp DateTime @default(now())
+
+  @@index([roomId])
+}
