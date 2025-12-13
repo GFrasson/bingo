@@ -53,16 +53,16 @@ export default async function RoomPage(props: RoomPageProps) {
 
   return (
     <div className="min-h-screen bg-rose-50 flex flex-col">
-      <header className="bg-white p-4 shadow-sm flex justify-between items-center px-8">
-        <div className="text-xl font-bold text-rose-600 font-serif">
+      <header className="bg-white p-3 md:p-4 shadow-sm flex justify-between items-center px-4 md:px-8">
+        <div className="text-lg md:text-xl font-bold text-rose-600 font-serif">
           Sala: {room.code}
         </div>
         <div>
-          {isAdmin ? <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">ADMIN</div> : <div className="text-rose-800">Olá, {player?.name || searchParams.name || 'Visitante'}</div>}
+          {isAdmin ? <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">ADMIN</div> : <div className="text-rose-800 text-sm md:text-base">Olá, {player?.name || searchParams.name || 'Visitante'}</div>}
         </div>
       </header>
 
-      <main className="flex-1 p-8 flex flex-col items-center">
+      <main className="flex-1 p-2 md:p-8 flex flex-col items-center">
         <h1 className="text-2xl mb-8 text-center bg-white/50 px-6 py-2 rounded-full border border-rose-100 text-rose-800">
           {room.status === 'WAITING' ? 'Aguardando início...' : 'Jogo em andamento!'}
         </h1>

@@ -83,7 +83,7 @@ export function PlayerGame({
     <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
 
       {/* Header / Title */}
-      <h1 className="text-5xl md:text-6xl text-primary font-display drop-shadow-sm mb-4">
+      <h1 className="text-2xl md:text-4xl lg:text-5xl text-primary font-display drop-shadow-sm mb-4 text-center px-4">
         Bingo Chá de Panela
       </h1>
 
@@ -109,7 +109,7 @@ export function PlayerGame({
                 <Badge
                   key={w.id}
                   variant="secondary"
-                  className="px-4 py-1 text-base rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
+                  className="px-3 py-1 text-sm md:text-base rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
                 >
                   {w.name}
                 </Badge>
@@ -126,7 +126,7 @@ export function PlayerGame({
             onClick={handleDeclareBingo}
             disabled={!canBingo}
             className={canBingo
-              ? "bg-green-500 hover:bg-green-600 text-white text-3xl font-display py-8 px-12 h-auto rounded-full shadow-[0_0_50px_rgba(34,197,94,0.5)] animate-bounce hover:scale-110 transition-all border-4 border-white ring-4 ring-green-300"
+              ? "bg-green-500 hover:bg-green-600 text-white text-xl md:text-2xl font-display py-4 px-8 md:py-6 md:px-10 h-auto rounded-full shadow-[0_0_50px_rgba(34,197,94,0.5)] animate-bounce hover:scale-110 transition-all border-4 border-white ring-4 ring-green-300"
               : "hidden"
             }
           >
@@ -135,7 +135,7 @@ export function PlayerGame({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4 pb-24">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 pb-24">
         {/* Left: Last Draw */}
         <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group h-fit">
           <CardHeader className="bg-secondary/30 pb-4">
@@ -145,7 +145,7 @@ export function PlayerGame({
           </CardHeader>
           <CardContent className="flex items-center justify-center min-h-[150px] p-6 relative">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-full scale-0 group-hover:scale-150 transition-transform duration-700" />
-            <div className="text-4xl md:text-5xl font-black text-primary text-center break-words z-10 animate-in zoom-in spin-in-3 duration-300">
+            <div className="text-3xl md:text-4xl font-black text-primary text-center break-words z-10 animate-in zoom-in spin-in-3 duration-300 px-2 leading-tight">
               {lastDraw || "---"}
             </div>
           </CardContent>
@@ -160,7 +160,7 @@ export function PlayerGame({
           </CardHeader>
           <CardContent className="flex flex-col items-center justify-center p-6 sm:p-8">
             {initialBoard && initialBoard.length > 0 ? (
-              <div className="relative w-full max-w-sm">
+              <div className="relative w-full max-w-xl">
                 <Board
                   items={initialBoard}
                   onMark={handleMark}

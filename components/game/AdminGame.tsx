@@ -66,7 +66,7 @@ export function AdminGame({
     <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
 
       {/* Header / Title */}
-      <h1 className="text-5xl md:text-6xl text-primary font-display drop-shadow-sm mb-4">
+      <h1 className="text-2xl md:text-4xl lg:text-5xl text-primary font-display drop-shadow-sm mb-4 text-center px-4">
         Painel da Noiva
       </h1>
 
@@ -92,7 +92,7 @@ export function AdminGame({
                 <Badge
                   key={w.id}
                   variant="secondary"
-                  className="px-6 py-2 text-lg rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
+                  className="px-3 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
                 >
                   {w.name}
                 </Badge>
@@ -102,7 +102,7 @@ export function AdminGame({
         </Card>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4">
         {/* Last Draw Card */}
         <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group">
           <CardHeader className="bg-secondary/30 pb-4">
@@ -139,7 +139,7 @@ export function AdminGame({
             <p className="text-muted-foreground text-center max-w-md">
               {gameStatus === 'WAITING' && "Clique em 'Iniciar Jogo' para começar."}
               {gameStatus === 'PLAYING' && "Clique em 'Sortear' para tirar uma nova palavra/pedra."}
-              {gameStatus === 'ENDED' && "O jogo acabou. Reinicie a sala se quiser jogar novamente."}
+              {gameStatus === 'ENDED' && "O jogo acabou. Inicie uma nova sala se quiser jogar novamente."}
             </p>
           </CardContent>
         </Card>

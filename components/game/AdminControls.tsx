@@ -32,7 +32,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
           onClick={() => handleAction(onStartGame)}
           disabled={loading}
           size="lg"
-          className="bg-green-600 hover:bg-green-700 text-white text-xl py-6 px-10 rounded-full shadow-xl"
+          className="bg-green-600 hover:bg-green-700 text-white text-lg py-4 px-6 md:text-xl md:py-6 md:px-10 rounded-full shadow-xl"
         >
           {loading ? "Iniciando..." : "Iniciar Jogo"}
         </Button>
@@ -46,7 +46,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
         onClick={() => handleAction(onDraw)}
         disabled={loading || gameStatus === 'ENDED'}
         size="lg"
-        className="bg-rose-600 hover:bg-rose-700 text-white text-xl py-8 px-12 rounded-full shadow-xl transition-all active:scale-95"
+        className="bg-rose-600 hover:bg-rose-700 text-white text-lg py-4 px-6 md:text-xl md:py-6 md:px-10 rounded-full shadow-xl transition-all active:scale-95"
       >
         {loading ? "Sorteando..." : "Sortear Próxima Pedra"}
       </Button>
