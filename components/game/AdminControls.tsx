@@ -31,8 +31,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
         <Button
           onClick={() => handleAction(onStartGame)}
           disabled={loading}
-          size="lg"
-          className="bg-green-600 hover:bg-green-700 text-white text-lg py-4 px-6 md:text-xl md:py-6 md:px-10 rounded-full shadow-xl"
+          className="bg-green-600 hover:bg-green-700 text-white text-lg py-4 px-6 md:text-xl md:py-6 md:px-10 shadow-xl transition-all active:scale-95"
         >
           {loading ? "Iniciando..." : "Iniciar Jogo"}
         </Button>
@@ -45,8 +44,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
       <Button
         onClick={() => handleAction(onDraw)}
         disabled={loading || gameStatus === 'ENDED'}
-        size="lg"
-        className="bg-rose-600 hover:bg-rose-700 text-white text-lg py-4 px-6 md:text-xl md:py-6 md:px-10 rounded-full shadow-xl transition-all active:scale-95"
+        className="bg-rose-600 hover:bg-rose-700 text-white text-lg w-full md:text-xl md:py-6 md:px-10 shadow-xl transition-all active:scale-95"
       >
         {loading ? "Sorteando..." : "Sortear Próxima Pedra"}
       </Button>
@@ -54,7 +52,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
       <Button
         variant="destructive"
         onClick={() => handleAction(onEndGame)}
-        className="mt-4 opacity-80 hover:opacity-100"
+        className="bg-rose-800 hover:bg-rose-900 text-white text-lg w-full md:text-xl md:py-6 md:px-10 shadow-xl transition-all active:scale-95"
       >
         Encerrar Jogo
       </Button>

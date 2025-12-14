@@ -11,6 +11,12 @@ interface AdminGameProps {
   roomId: string
 }
 
+const helperTextMap: Record<string, string> = {
+  WAITING: "Clique em 'Iniciar Jogo' para começar.",
+  PLAYING: "Clique em 'Sortear' para tirar uma nova palavra/pedra.",
+  ENDED: "O jogo acabou. Inicie uma nova sala se quiser jogar novamente.",
+}
+
 export function AdminGame({
   roomId,
 }: AdminGameProps) {
@@ -28,28 +34,26 @@ export function AdminGame({
     await endGame(roomId)
   }
 
+  const helperText = gameStatus ? helperTextMap[gameStatus] : "";
+
   return (
     <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
-
-      {/* Header / Title */}
       <h1 className="text-2xl md:text-4xl lg:text-5xl text-primary font-display drop-shadow-sm mb-4 text-center px-4">
         Painel da Noiva
       </h1>
 
-      {/* Game Status Banner */}
       {gameStatus === 'ENDED' && (
         <div className="w-full max-w-4xl bg-primary text-primary-foreground p-4 text-center text-2xl font-bold rounded-xl shadow-lg animate-in slide-in-from-top">
           🎉 JOGO ENCERRADO 🎉
         </div>
       )}
 
-      {/* Winners Section */}
       {winners.length > 0 && (
         <Card className="w-full max-w-4xl border-2 border-accent bg-background/80 backdrop-blur-sm shadow-xl">
           <CardHeader>
             <CardTitle className="text-3xl font-display text-primary flex items-center justify-center gap-3">
               <Trophy className="h-8 w-8 text-yellow-500" />
-              Vencedoras do Bingo ({winners.length})
+              Vencedores do Bingo ({winners.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -101,11 +105,8 @@ export function AdminGame({
               gameStatus={gameStatus}
             />
 
-            {/* Helper Text */}
             <p className="text-muted-foreground text-center max-w-md">
-              {gameStatus === 'WAITING' && "Clique em 'Iniciar Jogo' para começar."}
-              {gameStatus === 'PLAYING' && "Clique em 'Sortear' para tirar uma nova palavra/pedra."}
-              {gameStatus === 'ENDED' && "O jogo acabou. Inicie uma nova sala se quiser jogar novamente."}
+              {helperText}
             </p>
           </CardContent>
         </Card>
