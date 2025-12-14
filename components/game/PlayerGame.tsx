@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Board } from "./Board"
+import { BoardGame } from "./BoardGame"
 import { useGame } from "./GameContext"
 import { declareBingo } from "@/app/actions"
 import { Button } from "@/components/ui/button"
@@ -71,7 +71,7 @@ export function PlayerGame({
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
           {initialBoard && initialBoard.length > 0 ? (
             <div className="relative w-full">
-              <Board
+              <BoardGame
                 items={initialBoard}
                 onBingo={setCanBingo}
                 disabled={gameStatus === 'ENDED' || !!isPlayerWinner}

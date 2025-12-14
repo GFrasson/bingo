@@ -19,7 +19,7 @@ interface GameState {
 interface GameContextType extends GameState {
 }
 
-const GameContext = createContext<GameContextType | undefined>(undefined)
+export const GameContext = createContext<GameContextType | undefined>(undefined)
 
 interface GameProviderProps {
   children: ReactNode

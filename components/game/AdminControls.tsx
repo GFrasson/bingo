@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { PdfGenerator } from "./PdfGenerator"
 
 interface AdminControlsProps {
   onDraw: () => Promise<void>
@@ -35,6 +36,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
         >
           {loading ? "Iniciando..." : "Iniciar Jogo"}
         </Button>
+        <PdfGenerator />
       </div>
     )
   }
