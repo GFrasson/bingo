@@ -3,13 +3,14 @@
 import { useState } from "react"
 import { Board } from "./Board"
 import { useGame } from "./GameContext"
-import { declareBingo, markBoard } from "@/app/actions"
+import { declareBingo } from "@/app/actions"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Trophy, Dices, RefreshCw } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { RefreshCw } from "lucide-react"
 import confetti from "canvas-confetti"
 import { Winners } from "./Winners"
+import { LastDrawCard } from "./LastDrawCard"
+import { EndGameBanner } from "./EndGameBanner"
 
 interface PlayerGameProps {
   roomId: string
@@ -45,11 +46,7 @@ export function PlayerGame({
         Bingo Chá de Panela
       </h1>
 
-      {gameStatus === 'ENDED' && (
-        <div className="w-full max-w-4xl bg-primary text-primary-foreground p-4 text-center text-2xl font-bold rounded-xl shadow-lg animate-in slide-in-from-top">
-          JOGO ENCERRADO
-        </div>
-      )}
+      <EndGameBanner />
 
       <Winners winners={winners} />
 
@@ -69,19 +66,7 @@ export function PlayerGame({
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 pb-24">
-        <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group h-fit">
-          <CardHeader className="bg-secondary/30 pb-4">
-            <CardTitle className="text-xl text-center font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
-              <Dices className="w-5 h-5" /> Última Pedra
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center min-h-[150px] p-6 relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-full scale-0 group-hover:scale-150 transition-transform duration-700" />
-            <div className="text-3xl md:text-4xl font-black text-primary text-center break-words z-10 animate-in zoom-in spin-in-3 duration-300 px-2 leading-tight">
-              {lastDraw || "---"}
-            </div>
-          </CardContent>
-        </Card>
+        <LastDrawCard lastDraw={lastDraw} />
 
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
           {initialBoard && initialBoard.length > 0 ? (
