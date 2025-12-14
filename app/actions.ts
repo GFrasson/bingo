@@ -107,7 +107,9 @@ export async function markBoard(playerId: string, word: string) {
     }
   })
 
-  if (!player) return { error: "Player not found" }
+  if (!player) {
+    return { error: "Player not found" }
+  }
 
   // 2. Strict Validation: Check if word is in room.draws
   const isDrawn = player.room.draws.some(d => d.word === word)

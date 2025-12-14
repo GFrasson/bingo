@@ -24,15 +24,6 @@ export function PlayerGame({
   const { gameStatus, lastDraw, winners } = useGame()
   const [canBingo, setCanBingo] = useState(false)
 
-  const handleMark = async (word: string) => {
-    if (!playerId || gameStatus === 'ENDED') return
-    const result = await markBoard(playerId, word)
-    if (result && 'error' in result) {
-      alert(result.error)
-      window.location.reload()
-    }
-  }
-
   const handleDeclareBingo = async () => {
     if (!playerId) return
     confetti({
@@ -124,9 +115,9 @@ export function PlayerGame({
             <div className="relative w-full">
               <Board
                 items={initialBoard}
-                onMark={handleMark}
-                onBingo={() => setCanBingo(true)}
+                onBingo={setCanBingo}
                 disabled={gameStatus === 'ENDED' || !!isPlayerWinner}
+                playerId={playerId}
               />
 
               {/* Overlay for ended game or winner */}

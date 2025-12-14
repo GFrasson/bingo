@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { markBoard } from "@/app/actions"
+import { useGame } from "./GameContext"
 
 interface BoardItem {
   id: string
@@ -12,13 +14,29 @@ interface BoardItem {
 
 interface BoardProps {
   items: BoardItem[]
-  onMark: (word: string) => void
-  onBingo?: () => void
+  playerId?: string
+  onBingo?: (isBingo: boolean) => void
   disabled?: boolean
 }
 
-export function Board({ items, onMark, disabled, onBingo }: BoardProps) {
+export function Board({ items, playerId, disabled, onBingo }: BoardProps) {
+  const { gameStatus } = useGame()
   const [localItems, setLocalItems] = useState(items)
+
+  const handleMark = async (word: string): Promise<boolean> => {
+    if (!playerId || gameStatus === 'ENDED') {
+      return false
+    }
+
+    const result = await markBoard(playerId, word)
+
+    if (result && 'error' in result) {
+      alert(result.error)
+      return false
+    }
+
+    return true
+  }
 
   // Check for Bingo (5x5 grid)
   const checkBingo = (currentItems: BoardItem[]) => {
@@ -44,16 +62,28 @@ export function Board({ items, onMark, disabled, onBingo }: BoardProps) {
     return false
   }
 
-  const handleClick = (item: BoardItem) => {
+  // Monitor state for Bingo
+  useEffect(() => {
+    const isBingo = checkBingo(localItems)
+    onBingo?.(isBingo)
+  }, [localItems])
+
+  const handleClick = async (item: BoardItem) => {
     if (disabled || item.marked) return
 
-    const newItems = localItems.map(i => i.id === item.id ? { ...i, marked: true } : i)
-    setLocalItems(newItems)
-    onMark(item.word)
+    // Optimistic Update: Mark the item
+    setLocalItems(prev => prev.map(i => i.id === item.id ? { ...i, marked: true } : i))
 
-    // Check if this move wins
-    if (checkBingo(newItems)) {
-      onBingo?.()
+    try {
+      const success = await handleMark(item.word)
+
+      if (!success) {
+        // Revert: Unmark only this item
+        setLocalItems(prev => prev.map(i => i.id === item.id ? { ...i, marked: false } : i))
+      }
+    } catch (error) {
+      // Revert on error
+      setLocalItems(prev => prev.map(i => i.id === item.id ? { ...i, marked: false } : i))
     }
   }
 
