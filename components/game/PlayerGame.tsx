@@ -84,11 +84,11 @@ export function PlayerGame({
             onClick={handleDeclareBingo}
             disabled={!canBingo}
             className={canBingo
-              ? "bg-green-500 hover:bg-green-600 text-white text-xl md:text-2xl font-display py-4 px-8 md:py-6 md:px-10 h-auto rounded-full shadow-[0_0_50px_rgba(34,197,94,0.5)] animate-bounce hover:scale-110 transition-all border-4 border-white ring-4 ring-green-300"
+              ? "bg-green-400 hover:bg-green-500 cursor-pointer text-white text-xl md:text-2xl py-4 px-8 md:py-6 md:px-10 h-auto border-2 border-green-500"
               : "hidden"
             }
           >
-            🎉 BINGO! 🎉
+            BINGO! 🎉
           </Button>
         </div>
       )}
