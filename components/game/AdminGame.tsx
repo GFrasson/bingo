@@ -6,6 +6,7 @@ import { drawWord, endGame, startGame } from "@/app/actions"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Trophy, Dices } from "lucide-react"
+import { Winners } from "./Winners"
 
 interface AdminGameProps {
   roomId: string
@@ -48,29 +49,7 @@ export function AdminGame({
         </div>
       )}
 
-      {winners.length > 0 && (
-        <Card className="w-full max-w-4xl border-2 border-accent bg-background/80 backdrop-blur-sm shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-3xl font-display text-primary flex items-center justify-center gap-3">
-              <Trophy className="h-8 w-8 text-yellow-500" />
-              Vencedores do Bingo ({winners.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap justify-center gap-4">
-              {winners.map(w => (
-                <Badge
-                  key={w.id}
-                  variant="secondary"
-                  className="px-3 py-1 text-sm md:px-6 md:py-2 md:text-lg rounded-full shadow-md animate-in zoom-in bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-secondary-foreground/20"
-                >
-                  {w.name}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <Winners winners={winners} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4">
         {/* Last Draw Card */}
