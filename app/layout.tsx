@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Dancing_Script, Lato } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const dancingScript = Dancing_Script({
   variable: "--font-dancing",
@@ -29,6 +30,10 @@ export default function RootLayout({
         className={`${dancingScript.variable} ${lato.variable} font-sans antialiased text-foreground bg-background`}
       >
         {children}
+        <Toaster
+          position="top-right"
+          duration={5000}
+        />
       </body>
     </html>
   );

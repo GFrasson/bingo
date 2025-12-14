@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { markBoard } from "@/app/actions"
 import { useGame } from "./GameContext"
+import { toast } from "sonner"
 
 interface BoardItem {
   id: string
@@ -31,7 +32,7 @@ export function Board({ items, playerId, disabled, onBingo }: BoardProps) {
     const result = await markBoard(playerId, word)
 
     if (result && 'error' in result) {
-      alert(result.error)
+      toast.error(result.error)
       return false
     }
 
