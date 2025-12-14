@@ -17,7 +17,6 @@ interface GameState {
 }
 
 interface GameContextType extends GameState {
-  setGameStatus: (status: string) => void // Optimistic updates if needed, though mostly driven by server
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -94,7 +93,6 @@ export function GameProvider({
       gameStatus,
       lastDraw,
       winners,
-      setGameStatus
     }}>
       {children}
     </GameContext.Provider>

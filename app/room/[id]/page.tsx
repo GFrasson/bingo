@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { GameClient } from "@/components/game/GameClient"
 import { cookies } from "next/headers"
+import { GameStatus } from "@/components/game/GameStatus"
+import { GameProvider } from "@/components/game/GameContext"
 
 interface RoomPageProps {
   params: Promise<{
@@ -52,27 +54,32 @@ export default async function RoomPage(props: RoomPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-rose-50 flex flex-col">
-      <header className="bg-white p-3 md:p-4 shadow-sm flex justify-between items-center px-4 md:px-8">
-        <div className="text-lg md:text-xl font-bold text-rose-600 font-serif">
-          Sala: {room.code}
-        </div>
-        <div>
-          {isAdmin ? <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">ADMIN</div> : <div className="text-rose-800 text-sm md:text-base">Olá, {player?.name || searchParams.name || 'Visitante'}</div>}
-        </div>
-      </header>
+    <GameProvider
+      roomId={room.id}
+      initialStatus={room.status}
+      initialDraws={room.draws}
+      initialWinners={room.players}
+    >
+      <div className="min-h-screen bg-rose-50 flex flex-col">
+        <header className="bg-white p-3 md:p-4 shadow-sm flex justify-between items-center px-4 md:px-8">
+          <div className="text-lg md:text-xl font-bold text-rose-600 font-serif">
+            Sala: {room.code}
+          </div>
+          <GameStatus />
+          <div>
+            {isAdmin ? <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">ADMIN</div> : <div className="text-rose-800 text-sm md:text-base">Olá, {player?.name || searchParams.name || 'Visitante'}</div>}
+          </div>
+        </header>
 
-      <main className="flex-1 p-2 md:p-8 flex flex-col items-center">
-        <GameClient
-          roomId={room.id}
-          isAdmin={isAdmin}
-          playerId={player?.id}
-          initialBoard={player?.board || []}
-          initialDraws={room.draws}
-          initialWinners={room.players}
-          gameStatus={room.status}
-        />
-      </main>
-    </div>
+        <main className="flex-1 p-2 md:p-8 flex flex-col items-center">
+          <GameClient
+            roomId={room.id}
+            isAdmin={isAdmin}
+            playerId={player?.id}
+            initialBoard={player?.board || []}
+          />
+        </main>
+      </div>
+    </GameProvider>
   )
 }

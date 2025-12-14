@@ -5,8 +5,8 @@ import Link from "next/link"
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-rose-50 p-24 text-center">
-      <div className="z-10 max-w-5xl w-full items-center justify-center font-mono text-sm flex flex-col gap-8">
-        <h1 className="text-6xl font-bold text-rose-600 drop-shadow-sm font-serif">
+      <div className="z-10 max-w-5xl w-full items-center justify-center font-display text-sm flex flex-col gap-8">
+        <h1 className="text-6xl font-bold text-rose-600 drop-shadow-sm font-display">
           Bingo: Chá de Panela
         </h1>
         <p className="text-xl text-rose-800 max-w-md">
