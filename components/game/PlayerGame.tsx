@@ -40,25 +40,22 @@ export function PlayerGame({
   return (
     <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
 
-      {/* Header / Title */}
       <h1 className="text-2xl md:text-4xl lg:text-5xl text-primary font-display drop-shadow-sm mb-4 text-center px-4">
         Bingo Chá de Panela
       </h1>
 
-      {/* Game Over Banner */}
       {gameStatus === 'ENDED' && (
         <div className="w-full max-w-4xl bg-primary text-primary-foreground p-4 text-center text-2xl font-bold rounded-xl shadow-lg animate-in slide-in-from-top">
           JOGO ENCERRADO
         </div>
       )}
 
-      {/* Winners List - Always visible if there are winners */}
       {winners.length > 0 && (
         <Card className="w-full max-w-4xl border-2 border-accent bg-background/80 backdrop-blur-sm shadow-xl">
           <CardHeader>
             <CardTitle className="text-2xl font-display text-primary flex items-center justify-center gap-3">
               <Trophy className="h-6 w-6 text-yellow-500" />
-              Vencedoras
+              Vencedores
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -77,7 +74,6 @@ export function PlayerGame({
         </Card>
       )}
 
-      {/* Player Bingo Button */}
       {gameStatus === 'PLAYING' && !isPlayerWinner && (
         <div className="fixed bottom-8 right-8 z-50">
           <Button
@@ -94,7 +90,6 @@ export function PlayerGame({
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 pb-24">
-        {/* Left: Last Draw */}
         <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group h-fit">
           <CardHeader className="bg-secondary/30 pb-4">
             <CardTitle className="text-xl text-center font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
@@ -109,7 +104,6 @@ export function PlayerGame({
           </CardContent>
         </Card>
 
-        {/* Center: Game Area */}
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
           {initialBoard && initialBoard.length > 0 ? (
             <div className="relative w-full">
@@ -120,7 +114,6 @@ export function PlayerGame({
                 playerId={playerId}
               />
 
-              {/* Overlay for ended game or winner */}
               {(gameStatus === 'ENDED' || !!isPlayerWinner) && (
                 <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-20 backdrop-blur-sm rounded-xl animate-in fade-in">
                   <span className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl shadow-xl">
