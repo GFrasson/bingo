@@ -58,7 +58,7 @@ export function Board({ items, onMark, disabled, onBingo }: BoardProps) {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center max-w-xl mx-auto aspect-[3/4] p-2 sm:p-8 shadow-2xl rounded-xl overflow-hidden bg-background">
+    <div className="relative flex flex-col items-center justify-center mx-auto aspect-[3/4] p-2 sm:p-8 shadow-2xl rounded-xl overflow-hidden bg-background">
       {/* Full Background Image */}
       <div className="absolute inset-0 z-0">
         <img

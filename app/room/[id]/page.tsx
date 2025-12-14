@@ -63,10 +63,6 @@ export default async function RoomPage(props: RoomPageProps) {
       </header>
 
       <main className="flex-1 p-2 md:p-8 flex flex-col items-center">
-        <h1 className="text-2xl mb-8 text-center bg-white/50 px-6 py-2 rounded-full border border-rose-100 text-rose-800">
-          {room.status === 'WAITING' ? 'Aguardando início...' : 'Jogo em andamento!'}
-        </h1>
-
         <GameClient
           roomId={room.id}
           isAdmin={isAdmin}

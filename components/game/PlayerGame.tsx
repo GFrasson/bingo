@@ -1,61 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import { useRealtime } from "@/lib/realtime/client"
 import { Board } from "./Board"
+import { useGame } from "./GameContext"
 import { declareBingo, markBoard } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Trophy, Dices, Gift, RefreshCw } from "lucide-react"
+import { Trophy, Dices, RefreshCw } from "lucide-react"
 import confetti from "canvas-confetti"
-
-interface Winner {
-  id: string
-  name: string
-  isBingo: boolean
-}
 
 interface PlayerGameProps {
   roomId: string
   playerId?: string
   initialBoard?: any[]
-  initialDraws?: any[]
-  initialWinners?: Winner[]
-  gameStatus?: string
 }
 
 export function PlayerGame({
   roomId,
   playerId,
   initialBoard = [],
-  initialDraws = [],
-  initialWinners = [],
-  gameStatus: initialStatus = 'WAITING'
 }: PlayerGameProps) {
-  const [lastDraw, setLastDraw] = useState<string>(initialDraws[0]?.word || "")
-  const [winners, setWinners] = useState<Winner[]>(initialWinners)
-  const [gameStatus, setGameStatus] = useState(initialStatus)
+  const { gameStatus, lastDraw, winners } = useGame()
   const [canBingo, setCanBingo] = useState(false)
-
-  useRealtime(`room-${roomId}`, 'draw', (data: { word: string }) => {
-    setLastDraw(data.word)
-  })
-
-  useRealtime(`room-${roomId}`, 'bingo', (data: { playerName: string, playerId: string }) => {
-    setWinners(prev => {
-      if (prev.some(w => w.id === data.playerId)) return prev
-      return [...prev, { id: data.playerId, name: data.playerName, isBingo: true }]
-    })
-  })
-
-  useRealtime(`room-${roomId}`, 'game_started', () => {
-    setGameStatus('PLAYING')
-  })
-
-  useRealtime(`room-${roomId}`, 'game_ended', () => {
-    setGameStatus('ENDED')
-  })
 
   const handleMark = async (word: string) => {
     if (!playerId || gameStatus === 'ENDED') return
@@ -153,37 +120,30 @@ export function PlayerGame({
 
         {/* Center: Game Area */}
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
-          <CardHeader className="bg-secondary/30 pb-4">
-            <CardTitle className="text-2xl text-center font-bold text-primary flex items-center justify-center gap-2">
-              <Gift className="w-6 h-6" /> Sua Cartela
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center p-6 sm:p-8">
-            {initialBoard && initialBoard.length > 0 ? (
-              <div className="relative w-full max-w-xl">
-                <Board
-                  items={initialBoard}
-                  onMark={handleMark}
-                  onBingo={() => setCanBingo(true)}
-                  disabled={gameStatus === 'ENDED' || !!isPlayerWinner}
-                />
+          {initialBoard && initialBoard.length > 0 ? (
+            <div className="relative w-full">
+              <Board
+                items={initialBoard}
+                onMark={handleMark}
+                onBingo={() => setCanBingo(true)}
+                disabled={gameStatus === 'ENDED' || !!isPlayerWinner}
+              />
 
-                {/* Overlay for ended game or winner */}
-                {(gameStatus === 'ENDED' || !!isPlayerWinner) && (
-                  <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-20 backdrop-blur-sm rounded-xl animate-in fade-in">
-                    <span className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl shadow-xl">
-                      {!!isPlayerWinner ? "Você ganhou! 🥳" : "Jogo Finalizado"}
-                    </span>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center p-12 text-muted-foreground">
-                <RefreshCw className="w-8 h-8 animate-spin mb-4" />
-                <p>Carregando cartela...</p>
-              </div>
-            )}
-          </CardContent>
+              {/* Overlay for ended game or winner */}
+              {(gameStatus === 'ENDED' || !!isPlayerWinner) && (
+                <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-20 backdrop-blur-sm rounded-xl animate-in fade-in">
+                  <span className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl shadow-xl">
+                    {!!isPlayerWinner ? "Você ganhou! 🥳" : "Jogo Finalizado"}
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center p-12 text-muted-foreground">
+              <RefreshCw className="w-8 h-8 animate-spin mb-4" />
+              <p>Carregando cartela...</p>
+            </div>
+          )}
         </Card>
       </div>
     </div>

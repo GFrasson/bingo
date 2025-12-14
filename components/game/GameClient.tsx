@@ -2,6 +2,7 @@
 
 import { AdminGame } from "./AdminGame"
 import { PlayerGame } from "./PlayerGame"
+import { GameProvider } from "./GameContext"
 
 interface Winner {
   id: string
@@ -28,25 +29,24 @@ export function GameClient({
   initialWinners = [],
   gameStatus = 'WAITING'
 }: GameClientProps) {
-  if (isAdmin) {
-    return (
-      <AdminGame
-        roomId={roomId}
-        initialDraws={initialDraws}
-        initialWinners={initialWinners}
-        gameStatus={gameStatus}
-      />
-    )
-  }
-
   return (
-    <PlayerGame
+    <GameProvider
       roomId={roomId}
-      playerId={playerId}
-      initialBoard={initialBoard}
+      initialStatus={gameStatus}
       initialDraws={initialDraws}
       initialWinners={initialWinners}
-      gameStatus={gameStatus}
-    />
+    >
+      {isAdmin ? (
+        <AdminGame
+          roomId={roomId}
+        />
+      ) : (
+        <PlayerGame
+          roomId={roomId}
+          playerId={playerId}
+          initialBoard={initialBoard}
+        />
+      )}
+    </GameProvider>
   )
 }

@@ -1,54 +1,20 @@
 "use client"
 
-import { useState } from "react"
-import { useRealtime } from "@/lib/realtime/client"
+import { useGame } from "./GameContext"
 import { AdminControls } from "./AdminControls"
 import { drawWord, endGame, startGame } from "@/app/actions"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Trophy, Dices } from "lucide-react"
 
-interface Winner {
-  id: string
-  name: string
-  isBingo: boolean
-}
-
 interface AdminGameProps {
   roomId: string
-  initialDraws?: any[]
-  initialWinners?: Winner[]
-  gameStatus?: string
 }
 
 export function AdminGame({
   roomId,
-  initialDraws = [],
-  initialWinners = [],
-  gameStatus: initialStatus = 'WAITING'
 }: AdminGameProps) {
-  const [lastDraw, setLastDraw] = useState<string>(initialDraws[0]?.word || "")
-  const [winners, setWinners] = useState<Winner[]>(initialWinners)
-  const [gameStatus, setGameStatus] = useState(initialStatus)
-
-  useRealtime(`room-${roomId}`, 'draw', (data: { word: string }) => {
-    setLastDraw(data.word)
-  })
-
-  useRealtime(`room-${roomId}`, 'bingo', (data: { playerName: string, playerId: string }) => {
-    setWinners(prev => {
-      if (prev.some(w => w.id === data.playerId)) return prev
-      return [...prev, { id: data.playerId, name: data.playerName, isBingo: true }]
-    })
-  })
-
-  useRealtime(`room-${roomId}`, 'game_started', () => {
-    setGameStatus('PLAYING')
-  })
-
-  useRealtime(`room-${roomId}`, 'game_ended', () => {
-    setGameStatus('ENDED')
-  })
+  const { gameStatus, lastDraw, winners } = useGame()
 
   const handleStartGame = async () => {
     await startGame(roomId)
