@@ -1,14 +1,13 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { BoardGame } from "@/components/game/BoardGame"
 import html2canvas from "html2canvas-pro"
 import jsPDF from "jspdf"
 import { getRandomBoard } from "@/lib/themes"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Loader2, FileDown } from "lucide-react"
-import { GameContext } from "@/components/game/GameContext"
+import { GameProvider } from "@/components/game/GameContext"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
@@ -167,7 +166,7 @@ export function PdfGenerator() {
 
         {/* Hidden Rendering Area */}
         <div className="fixed left-[-9999px] top-0" ref={containerRef}>
-          <GameContext.Provider value={mockGameContext}>
+          <GameProvider roomId="pdf-gen" initialStatus="PLAYING" initialDraws={[]} initialWinners={[]}>
             {cardsToRender.map((card) => (
               <div key={card.id} className="pdf-board-item w-[600px] mb-8">
                 <Board
@@ -175,7 +174,7 @@ export function PdfGenerator() {
                 />
               </div>
             ))}
-          </GameContext.Provider>
+          </GameProvider>
         </div>
 
       </DialogContent>
