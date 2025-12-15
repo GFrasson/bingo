@@ -31,7 +31,7 @@ export function Board({ items, onItemClick, disabled }: BoardProps) {
       </h1>
 
       {/* Grid */}
-      <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full z-10 px-3 sm:px-12 mb-8 sm:mb-20 flex-1 content-center">
+      <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full z-10 px-3 sm:px-12 md:px-8 mb-8 sm:mb-20 flex-1 content-center">
         {items.sort((a, b) => a.position - b.position).map((item) => (
           <button
             key={item.id}
