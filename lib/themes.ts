@@ -1,14 +1,17 @@
 export const THEMES = {
   cha_de_panela: [
-    "Liquidificador", "Batedeira", "Panela de Pressão", "Faqueiro",
-    "Jogo de Jantar", "Toalha de Mesa", "Potes Plásticos", "Escorredor de Arroz",
-    "Tábua de Corte", "Ralador", "Colheres de Pau", "Avental",
-    "Forma de Bolo", "Assadeira", "Espremedor de Alho", "Abridor de Latas",
-    "Escumadeira", "Concha", "Fouet", "Xícaras de Café",
-    "Copos", "Jarra de Suco", "Petisqueira", "Saladeira",
-    "Travessa", "Descanso de Panela", "Luva Térmica", "Rodo de Pia",
-    "Lixeira de Pia", "Vassoura", "Pá de Lixo", "Balde",
-    "Pregadores", "Pano de Prato", "Saca-Rolhas", "Amassador de Batata"
+    "Liquidificador", "Batedeira", "Panela", "Faqueiro", "Pratos",
+    "Toalha", "Potes", "Escorredor", "Tábua", "Ralador",
+    "Espátula", "Avental", "Forma", "Assadeira", "Espremedor",
+    "Abridor", "Escumadeira", "Concha", "Fouet", "Xícaras",
+    "Copos", "Jarra", "Petisqueira", "Saladeira", "Travessa",
+    "Café", "Luva", "Rodo", "Lixeira", "Vassoura",
+    "Pá", "Balde", "Pregadores", "Pano", "Saca-Rolhas",
+    "Amassador", "Garfo", "Faca", "Colher", "Pires",
+    "Bule", "Frigideira", "Tigela", "Bacia", "Açucareiro",
+    "Saleiro", "Pimenteiro", "Bandeja", "Manteigueira", "Queijeira",
+    "Fruteira", "Suqueira", "Peneira", "Funil", "Tesoura",
+    "Rolo", "Pegador", "Pinça", "Cafeteira", "Chaleira"
   ]
 }
 
