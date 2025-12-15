@@ -48,7 +48,7 @@ export function AdminControls({ onDraw, onStartGame, onEndGame, gameStatus }: Ad
         disabled={loading || gameStatus === 'ENDED'}
         className="bg-rose-600 hover:bg-rose-700 text-white text-lg w-full md:text-xl md:py-6 md:px-10 shadow-xl transition-all active:scale-95"
       >
-        {loading ? "Sorteando..." : "Sortear Próxima Pedra"}
+        {loading ? "Sorteando..." : "Sortear Próxima Palavra"}
       </Button>
 
       <Button

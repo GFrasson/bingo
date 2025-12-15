@@ -5,6 +5,7 @@ import { markBoard } from "@/app/actions"
 import { useGame } from "./GameContext"
 import { toast } from "sonner"
 import { Board } from "../Board"
+import { checkBingoPatterns } from "@/lib/bingo"
 
 interface BoardItem {
   id: string
@@ -16,7 +17,7 @@ interface BoardItem {
 interface BoardProps {
   items: BoardItem[]
   playerId?: string
-  onBingo?: (isBingo: boolean) => void
+  onBingo?: (patterns: string[]) => void
   disabled?: boolean
 }
 
@@ -39,34 +40,12 @@ export function BoardGame({ items, playerId, disabled, onBingo }: BoardProps) {
     return true
   }
 
-  // Check for Bingo (5x5 grid)
-  const checkBingo = (currentItems: BoardItem[]) => {
-    const grid = Array(5).fill(null).map(() => Array(5).fill(false))
-    currentItems.forEach(item => {
-      const row = Math.floor(item.position / 5)
-      const col = item.position % 5
-      if (item.marked) grid[row][col] = true
-    })
 
-    // Check rows
-    for (let i = 0; i < 5; i++) {
-      if (grid[i].every(Boolean)) return true
-    }
-    // Check cols
-    for (let i = 0; i < 5; i++) {
-      if (grid.map(row => row[i]).every(Boolean)) return true
-    }
-    // Check diagonals
-    if (grid.map((row, i) => row[i]).every(Boolean)) return true
-    if (grid.map((row, i) => row[4 - i]).every(Boolean)) return true
-
-    return false
-  }
 
   // Monitor state for Bingo
   useEffect(() => {
-    const isBingo = checkBingo(localItems)
-    onBingo?.(isBingo)
+    const patterns = checkBingoPatterns(localItems)
+    onBingo?.(patterns)
   }, [localItems])
 
   const handleClick = async (item: BoardItem) => {

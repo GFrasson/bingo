@@ -25,6 +25,10 @@ export function PlayerGame({
 }: PlayerGameProps) {
   const { gameStatus, lastDraw, drawnWords, winners } = useGame()
   const [canBingo, setCanBingo] = useState(false)
+  const [newPatterns, setNewPatterns] = useState<string[]>([])
+
+  const playerWinnerData = playerId ? winners.find(w => w.id === playerId) : undefined
+  const existingPatterns = playerWinnerData?.patterns || []
 
   const handleDeclareBingo = async () => {
     if (!playerId) return
@@ -34,10 +38,22 @@ export function PlayerGame({
       origin: { y: 0.6 },
       colors: ['#FFC0CB', '#FFD700', '#FFFFFF', '#E6E6FA'] // Pink, Gold, White, Lavender
     })
+    // Optimistically update UI to avoid double clicks? 
+    // Actually, we should wait for server response or just let the button hide if newPatterns becomes empty.
+    // However, onBingo callback from BoardGame will keep firing if we don't clear it or something. 
+    // But BoardGame calculates patterns based on items.
+
     await declareBingo(playerId, roomId)
   }
 
-  const isPlayerWinner = playerId && winners.some(w => w.id === playerId)
+  const handleBingoCheck = (patterns: string[]) => {
+    // Check if there are ANY patterns that are NOT in existingPatterns
+    const hasNew = patterns.some(p => !existingPatterns.includes(p))
+    setNewPatterns(patterns.filter(p => !existingPatterns.includes(p)))
+    setCanBingo(hasNew)
+  }
+
+
 
   return (
     <div className="w-full flex flex-col items-center gap-8 py-8 animate-in fade-in duration-700">
@@ -50,15 +66,11 @@ export function PlayerGame({
 
       <Winners winners={winners} />
 
-      {gameStatus === 'PLAYING' && !isPlayerWinner && (
+      {gameStatus === 'PLAYING' && canBingo && (
         <div className="fixed bottom-8 right-8 z-50">
           <Button
             onClick={handleDeclareBingo}
-            disabled={!canBingo}
-            className={canBingo
-              ? "bg-green-400 hover:bg-green-500 cursor-pointer text-white text-xl md:text-2xl py-4 px-8 md:py-6 md:px-10 h-auto border-2 border-green-500"
-              : "hidden"
-            }
+            className="bg-green-400 hover:bg-green-500 cursor-pointer text-white text-xl md:text-2xl py-4 px-8 md:py-6 md:px-10 h-auto border-2 border-green-500 shadow-lg"
           >
             BINGO! 🎉
           </Button>
@@ -73,15 +85,15 @@ export function PlayerGame({
             <div className="relative w-full">
               <BoardGame
                 items={initialBoard}
-                onBingo={setCanBingo}
-                disabled={gameStatus === 'ENDED' || !!isPlayerWinner}
+                onBingo={handleBingoCheck}
+                disabled={gameStatus === 'ENDED'}
                 playerId={playerId}
               />
 
-              {(gameStatus === 'ENDED' || !!isPlayerWinner) && (
+              {(gameStatus === 'ENDED') && (
                 <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-20 backdrop-blur-sm rounded-xl animate-in fade-in">
                   <span className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl shadow-xl">
-                    {!!isPlayerWinner ? "Você ganhou! 🥳" : "Jogo Finalizado"}
+                    Jogo Finalizado
                   </span>
                 </div>
               )}

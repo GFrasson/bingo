@@ -6,7 +6,7 @@ import Pusher from "pusher-js"
 interface Winner {
   id: string
   name: string
-  isBingo: boolean
+  patterns: string[]
 }
 
 interface GameState {
@@ -64,10 +64,14 @@ export function GameProvider({
       })
     }
 
-    const handleBingo = (data: { playerName: string, playerId: string }) => {
+    const handleBingo = (data: { playerName: string, playerId: string, patterns: string[] }) => {
       setWinners(prev => {
-        if (prev.some(w => w.id === data.playerId)) return prev
-        return [...prev, { id: data.playerId, name: data.playerName, isBingo: true }]
+        const existing = prev.find(w => w.id === data.playerId)
+        if (existing) {
+          // Merge patterns
+          return prev.map(w => w.id === data.playerId ? { ...w, patterns: Array.from(new Set([...w.patterns, ...data.patterns])) } : w)
+        }
+        return [...prev, { id: data.playerId, name: data.playerName, patterns: data.patterns }]
       })
     }
 

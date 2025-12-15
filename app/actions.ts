@@ -6,6 +6,7 @@ import { THEMES, getRandomBoard } from "@/lib/themes"
 import { cookies } from "next/headers"
 import { realtime } from '@/lib/realtime/pusher-server'
 import { revalidatePath } from "next/cache"
+import { checkBingoPatterns } from "@/lib/bingo"
 
 export async function createRoom() {
   const code = Math.random().toString(36).substring(2, 8).toUpperCase()
@@ -127,19 +128,29 @@ export async function markBoard(playerId: string, word: string) {
   return { success: true }
 }
 
+
 export async function declareBingo(playerId: string, roomId: string) {
-  const player = await prisma.player.findUnique({ where: { id: playerId } })
+  const player = await prisma.player.findUnique({
+    where: { id: playerId },
+    include: { board: true }
+  })
+
   if (player) {
-    await prisma.player.update({
-      where: { id: playerId },
-      data: { isBingo: true }
-    })
-    // Ensure we send ALL info needed for admin to show a list
-    await realtime.trigger(`room-${roomId}`, 'bingo', {
-      playerId: player.id,
-      playerName: player.name,
-      timestamp: new Date()
-    })
+    const patterns = checkBingoPatterns(player.board)
+
+    if (patterns.length > 0) {
+      await prisma.player.update({
+        where: { id: playerId },
+        data: { isBingo: true }
+      })
+
+      await realtime.trigger(`room-${roomId}`, 'bingo', {
+        playerId: player.id,
+        playerName: player.name,
+        patterns: patterns,
+        timestamp: new Date()
+      })
+    }
   }
 }
 

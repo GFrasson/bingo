@@ -4,6 +4,7 @@ import { GameClient } from "@/components/game/GameClient"
 import { cookies } from "next/headers"
 import { GameStatus } from "@/components/game/GameStatus"
 import { GameProvider } from "@/components/game/GameContext"
+import { checkBingoPatterns } from "@/lib/bingo"
 
 interface RoomPageProps {
   params: Promise<{
@@ -27,7 +28,7 @@ export default async function RoomPage(props: RoomPageProps) {
       },
       players: {
         where: { isBingo: true },
-        select: { id: true, name: true, isBingo: true }
+        include: { board: true }
       }
     }
   })
@@ -57,7 +58,11 @@ export default async function RoomPage(props: RoomPageProps) {
       roomId={room.id}
       initialStatus={room.status}
       initialDraws={room.draws}
-      initialWinners={room.players}
+      initialWinners={room.players.map(p => ({
+        id: p.id,
+        name: p.name,
+        patterns: checkBingoPatterns(p.board)
+      }))}
     >
       <div className="min-h-screen bg-rose-50 flex flex-col">
         <header className="bg-white p-3 md:p-4 text-rose-600 shadow-sm flex justify-between items-center px-4 md:px-8">
