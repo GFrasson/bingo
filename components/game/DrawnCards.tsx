@@ -5,18 +5,18 @@ export function DrawnCards({ lastDraw, drawnWords = [] }: { lastDraw: string, dr
   const previousDraws = drawnWords.filter(w => w !== lastDraw)
 
   return (
-    <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group flex flex-col h-[500px]">
+    <Card className="md:col-span-1 bg-white/90 backdrop-blur border-primary/20 shadow-xl overflow-hidden group flex flex-col h-[400px]">
       <CardHeader className="bg-secondary/30 pb-4 shrink-0">
-        <CardTitle className="text-xl text-center font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
+        <CardTitle className="text-lg text-center font-bold text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
           <Dices className="w-5 h-5" /> Última Palavra
         </CardTitle>
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
         {/* Main Draw */}
-        <div className="flex items-center justify-center min-h-[200px] relative p-6 border-b border-primary/10 shrink-0">
+        <div className="flex items-center justify-center min-h-[100px] relative p-6 border-b border-primary/10 shrink-0">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-full scale-0 group-hover:scale-120 transition-transform duration-700" />
-          <div className="text-4xl md:text-5xl font-black text-primary text-center break-words z-10 transition-all duration-300 transform group-hover:scale-110">
+          <div className="text-xl md:text-2xl font-black text-primary text-center break-words z-10 transition-all duration-300 transform group-hover:scale-110">
             {lastDraw || "---"}
           </div>
         </div>

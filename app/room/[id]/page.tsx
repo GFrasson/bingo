@@ -60,8 +60,8 @@ export default async function RoomPage(props: RoomPageProps) {
       initialWinners={room.players}
     >
       <div className="min-h-screen bg-rose-50 flex flex-col">
-        <header className="bg-white p-3 md:p-4 shadow-sm flex justify-between items-center px-4 md:px-8">
-          <div className="text-lg md:text-xl font-bold text-rose-600 font-serif">
+        <header className="bg-white p-3 md:p-4 text-rose-600 shadow-sm flex justify-between items-center px-4 md:px-8">
+          <div className="text-lg md:text-xl font-bold">
             Sala: {room.code}
           </div>
           <GameStatus />

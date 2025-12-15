@@ -13,7 +13,7 @@ export function GameStatus() {
   const displayStatus = gameStatusMap[gameStatus] ?? ""
 
   return (
-    <h1 className="text-lg text-center text-rose-800">
+    <h1 className="text-lg text-center">
       {displayStatus}
     </h1>
   )
