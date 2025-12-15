@@ -13,6 +13,7 @@ interface GameState {
   roomId: string
   gameStatus: string
   lastDraw: string
+  drawnWords: string[]
   winners: Winner[]
 }
 
@@ -29,6 +30,7 @@ interface GameProviderProps {
   initialWinners?: Winner[]
 }
 
+
 export function GameProvider({
   children,
   roomId,
@@ -38,6 +40,7 @@ export function GameProvider({
 }: GameProviderProps) {
   const [gameStatus, setGameStatus] = useState(initialStatus)
   const [lastDraw, setLastDraw] = useState<string>(initialDraws[0]?.word || "")
+  const [drawnWords, setDrawnWords] = useState<string[]>(initialDraws.map((d: any) => d.word))
   const [winners, setWinners] = useState<Winner[]>(initialWinners)
 
   useEffect(() => {
@@ -55,6 +58,10 @@ export function GameProvider({
     // Event Handlers
     const handleDraw = (data: { word: string }) => {
       setLastDraw(data.word)
+      setDrawnWords(prev => {
+        if (prev.includes(data.word)) return prev
+        return [data.word, ...prev]
+      })
     }
 
     const handleBingo = (data: { playerName: string, playerId: string }) => {
@@ -92,12 +99,14 @@ export function GameProvider({
       roomId,
       gameStatus,
       lastDraw,
+      drawnWords,
       winners,
     }}>
       {children}
     </GameContext.Provider>
   )
 }
+
 
 export function useGame() {
   const context = useContext(GameContext)

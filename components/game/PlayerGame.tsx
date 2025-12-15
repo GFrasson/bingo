@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card"
 import { RefreshCw } from "lucide-react"
 import confetti from "canvas-confetti"
 import { Winners } from "./Winners"
-import { LastDrawCard } from "./LastDrawCard"
+import { DrawnCards } from "./DrawnCards"
 import { EndGameBanner } from "./EndGameBanner"
 
 interface PlayerGameProps {
@@ -23,7 +23,7 @@ export function PlayerGame({
   playerId,
   initialBoard = [],
 }: PlayerGameProps) {
-  const { gameStatus, lastDraw, winners } = useGame()
+  const { gameStatus, lastDraw, drawnWords, winners } = useGame()
   const [canBingo, setCanBingo] = useState(false)
 
   const handleDeclareBingo = async () => {
@@ -65,8 +65,8 @@ export function PlayerGame({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 pb-24">
-        <LastDrawCard lastDraw={lastDraw} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 pb-24 items-start">
+        <DrawnCards lastDraw={lastDraw} drawnWords={drawnWords} />
 
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
           {initialBoard && initialBoard.length > 0 ? (

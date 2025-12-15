@@ -23,8 +23,7 @@ export default async function RoomPage(props: RoomPageProps) {
     where: { id: params.id },
     include: {
       draws: {
-        orderBy: { timestamp: 'desc' },
-        take: 1
+        orderBy: { timestamp: 'desc' }
       },
       players: {
         where: { isBingo: true },

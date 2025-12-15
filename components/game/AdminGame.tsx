@@ -5,7 +5,7 @@ import { AdminControls } from "./AdminControls"
 import { drawWord, endGame, startGame } from "@/app/actions"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Winners } from "./Winners"
-import { LastDrawCard } from "./LastDrawCard"
+import { DrawnCards } from "./DrawnCards"
 import { EndGameBanner } from "./EndGameBanner"
 
 interface AdminGameProps {
@@ -21,7 +21,7 @@ const helperTextMap: Record<string, string> = {
 export function AdminGame({
   roomId,
 }: AdminGameProps) {
-  const { gameStatus, lastDraw, winners } = useGame()
+  const { gameStatus, lastDraw, drawnWords, winners } = useGame()
 
   const handleStartGame = async () => {
     await startGame(roomId)
@@ -47,8 +47,8 @@ export function AdminGame({
 
       <Winners winners={winners} />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4">
-        <LastDrawCard lastDraw={lastDraw} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl px-4 items-start">
+        <DrawnCards lastDraw={lastDraw} drawnWords={drawnWords} />
 
         <Card className="md:col-span-2 bg-white/90 backdrop-blur border-primary/20 shadow-xl">
           <CardHeader className="bg-secondary/30 pb-4">
